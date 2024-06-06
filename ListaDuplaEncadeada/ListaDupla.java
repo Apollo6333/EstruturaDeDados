@@ -95,7 +95,7 @@ public class ListaDupla<T> {
         lista.inserir(4);
 
         System.out.println("Conteúdo da lista:");
-        System.out.println(lista);
+        System.out.println(lista.toString());
 
         System.out.println("Exibindo elementos em ordem inversa:");
         lista.exibirOrdemInversa();

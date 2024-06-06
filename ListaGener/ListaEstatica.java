@@ -1,9 +1,10 @@
 package ListaGener;
-public class ListaGenerica<T> {
+
+public class ListaEstatica<T> {
     private Object[] info;
     private int tamanho;
     
-    public ListaGenerica() {
+    public ListaEstatica() {
         info = (T[]) new Object[10];
         tamanho = 0;
     }
@@ -21,6 +22,23 @@ public class ListaGenerica<T> {
             redimensionar();
         }
         info[tamanho] = valor;
+        tamanho++;
+    }
+
+    public void inserir(int posicao, T valor) {
+        if (posicao < 0) {
+            throw new IndexOutOfBoundsException("Posição não pode ser negativa");
+        }
+        if (tamanho == info.length) {
+            redimensionar();
+        }
+        if (posicao > tamanho) {
+            throw new IndexOutOfBoundsException("Posição fora do limite");
+        }
+        for (int i = tamanho; i > posicao; i--) {
+            info[i] = info[i - 1];
+        }
+        info[posicao] = valor;
         tamanho++;
     }
 
@@ -68,6 +86,30 @@ public class ListaGenerica<T> {
 			throw new IndexOutOfBoundsException();
 		}
 	}
+
+    public boolean estaVazia() {
+        if (tamanho == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getTamanho() {
+        return tamanho;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < tamanho; i++) {
+            sb.append(info[i]);
+            if (i < tamanho - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 
     public void inverter() {
         int esquerda = 0;
