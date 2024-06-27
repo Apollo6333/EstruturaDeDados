@@ -1,78 +1,76 @@
 package ExercicioPilhas;
 
 public class PilhaVetor<T> implements Pilha<T> {
-    
     private T[] info;
     private int limite;
     private int tamanho;
 
     public PilhaVetor(int limite) {
-        info = (T[]) new Object[limite];
-
+        this.limite = limite;
+        this.tamanho = 0;
+        this.info = (T[]) new Object[limite];
     }
 
     @Override
-    public void push(T info) {
+    public void push(T info) throws PilhaCheiaException {
         if (tamanho == limite) {
-            throw new PilhaCheiaException();
+            throw new PilhaCheiaException("A pilha está cheia.");
         }
-        this.info[tamanho] = info;
-        tamanho++;
+        this.info[tamanho++] = info;
     }
 
     @Override
-    public T peek() {
+    public T pop() throws PilhaVaziaException {
         if (estaVazia()) {
-            throw new PilhaVaziaException();
+            throw new PilhaVaziaException("A pilha está vazia.");
+        }
+        T valor = info[--tamanho];
+        info[tamanho] = null; // Limpa a referência
+        return valor;
+    }
+
+    @Override
+    public T peek() throws PilhaVaziaException {
+        if (estaVazia()) {
+            throw new PilhaVaziaException("A pilha está vazia.");
         }
         return info[tamanho - 1];
     }
 
     @Override
-    public T pop() {
-        T valor = peek();
-        info[tamanho - 1] = null;
-        tamanho--;
-
-        return valor;
-    }
-
-    @Override
     public boolean estaVazia() {
-        return (tamanho == 0);
+        return tamanho == 0;
     }
 
     @Override
     public void liberar() {
-
-        //1 implementação
-        info = (T[]) new Object[limite];
-        tamanho = 0;
-
-        //2 implementação
-        while (estaVazia()) {
-            pop();
+        for (int i = 0; i < tamanho; i++) {
+            info[i] = null;
         }
+        tamanho = 0;
     }
 
     @Override
     public String toString() {
-        String resultado = "";
-
+        if (estaVazia()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
         for (int i = tamanho - 1; i >= 0; i--) {
-            resultado += info[i].toString();
+            sb.append(info[i]);
             if (i > 0) {
-                resultado = resultado + ",";
+                sb.append(",");
             }
         }
-
-        return resultado;
+        return sb.toString();
     }
 
-    @Override
-    public void concatenar(PilhaVetor<T> p2) {
-        for (int i = tamanho - 1; i >= 0; i--) {
-        this.push(p2.info[i]);
+    public void concatenar(PilhaVetor<T> p) throws PilhaCheiaException {
+        if (this.limite - this.tamanho < p.tamanho) {
+            throw new PilhaCheiaException("Não há espaço suficiente na pilha para concatenar.");
+        }
+        for (int i = 0; i < p.tamanho; i++) {
+            this.push(p.info[i]);
         }
     }
 }
