@@ -95,4 +95,30 @@ public class FilaVetor<T> implements Fila<T> {
     public int getLimite() {
         return this.limite;
     }
+
+    public void encolher() {
+        T[] newInfo = (T[]) new Object[tamanho];
+        //A primeira coisa a se fazer é criar uma nova Fila temporária, cujo tamanho é baseado no 
+        //tamanho atual da Fila principal
+    
+        for (int i = 0; i < tamanho; i++) {
+            newInfo[i] = info[(inicio + i) % limite];
+        }
+        //Após isso, passamos os valores da Fila principal para a fila temporária, por meio de pegar o valor do inicio
+        //e somar com o index, para controlar os elementos copiados, o "%" fazendo pressença para não permitir que
+        //o indice resultante ainda esteja dentro do limite. Desse modo, ele passar os elementos
+        //sem trazer junto os espaços vazios, fazemos isso por meio de um for baseado no tamanho, para que
+        //nenhum valor adicional seja colocado na Fila temporária. 
+    
+        info = newInfo;
+        //Atualizamos a Fila principal com os valores da Fila temporaria, que não possui os espaços vazios
+
+        inicio = 0;
+        //Definise que o atributo "inicio" volte a ser o zero
+
+        limite = tamanho;
+        //E por fim, se assegura que a Fila utilizara o menor espaço possível,
+        //transformando o limite da Fila no tamanho atual dela
+    }
+    
 }

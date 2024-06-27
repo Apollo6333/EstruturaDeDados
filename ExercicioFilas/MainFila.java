@@ -19,6 +19,7 @@ public class MainFila {
             System.out.println("5 - Liberar fila");
             System.out.println("6 - Exibir fila");
             System.out.println("7 - Concatenar com outra fila");
+            System.out.println("8 - Reduzir a lista");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             opcao = scanner.nextInt();
@@ -85,6 +86,10 @@ public class MainFila {
                     } catch (FilaCheiaException e) {
                         System.out.println(e.getMessage());
                     }
+                    break;
+                case 8:
+                    System.out.println("Reduzindo tamanho da lista");
+                    fila.encolher();
                     break;
                 case 0:
                     System.out.println("Saindo...");
